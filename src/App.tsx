@@ -1,10 +1,17 @@
-import { useState } from 'react'
+import PropTypes from 'prop-types';
+import { connect } from "react-redux";
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import {
+  USER_UPDATE_COUNT
+} from './widget/redux/actions/user'
+
+function App({
+  count,
+  increment
+}) {
 
   return (
     <>
@@ -18,7 +25,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={increment}>
           count is {count}
         </button>
         <p>
@@ -32,4 +39,25 @@ function App() {
   )
 }
 
-export default App
+App.propTypes = {
+  count: PropTypes.number,
+  increment: PropTypes.func,
+
+  state: PropTypes.object,
+  dispatch: PropTypes.func
+}
+
+// mapStateToProps
+const mapStateToProps = (state) => {
+  return {
+    count: state?.user?.count
+  }
+}
+// here mapDispatchToProps
+const mapDispatchToProps = (dispatch) => {
+  return {
+    increment: () => dispatch({type: USER_UPDATE_COUNT })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
