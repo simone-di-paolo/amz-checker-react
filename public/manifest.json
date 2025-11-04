@@ -1,10 +1,13 @@
 {
     "manifest_version": 3,
-    "name": "Amz Checker",
+    "name": "Amz Checker - React",
     "version": "1.0.0",
     "description": "A simple React app as a Chrome extension",
     "action": {
       "default_popup": "index.html"
     },
-    "permissions": []
+    "permissions": [],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+    }
   }
