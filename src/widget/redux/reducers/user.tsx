@@ -1,4 +1,4 @@
-import { USER_UPDATE_COUNT } from "../actions/user";
+import { FETCH_USER } from "../actions/user";
 interface Action {
     type: string;
     payload?: number;
@@ -12,13 +12,13 @@ const userReducer = (state = initialState, action: Action) => {
 
     switch (action.type) {
 
-        case USER_UPDATE_COUNT:
-
-        const counterToUpdate = state?.count;
+        case FETCH_USER._REQUEST: {
+            const counterToUpdate = state?.count;
             return { 
                 ...state, 
                 count: counterToUpdate+1
             };
+        }
 
         default:
             return state;

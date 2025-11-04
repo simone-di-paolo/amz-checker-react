@@ -2,13 +2,14 @@ import { configureStore, Middleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import * as userReducer from './widget/redux/reducers/user';
+import { watchIncrementAsync } from './widget/redux/sagas/user';
 
 // Define your reducers here
 const rootReducer = { user: userReducer.userReducer };
 
 // Define your sagas here
 function* rootSaga():Generator {
-  yield all([]);
+  yield all([watchIncrementAsync()]);
 }
 
 // Create the saga middleware
