@@ -1,15 +1,15 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
+import logger from 'redux-logger';
 import * as userReducer from './widget/redux/reducers/user';
 import { watchIncrementAsync } from './widget/redux/sagas/user';
-import { composeWithDevTools } from '@redux-devtools/extension';
 
 // Define your reducers here
 const rootReducer = { user: userReducer.userReducer };
 
 // Define your sagas here
-function* rootSaga():Generator {
+function* rootSaga(): Generator {
   yield all([watchIncrementAsync()]);
 }
 
@@ -19,22 +19,18 @@ const sagaMiddleware = createSagaMiddleware();
 // Define the middleware array
 const middleware: Middleware[] = [sagaMiddleware];
 
-const composeEnhancers = composeWithDevTools({
-  // Specify name and other options if needed (e.g., actionCreators, latency, etc.)
-  name: 'Amz Checker - React'
-});
+// Add the logger middleware only in development
+if (process.env.NODE_ENV !== 'production') {
+  // @ts-ignore
+  middleware.push(logger);
+}
 
 // Create the store
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }).concat(middleware),
-  enhancers: (getDefaultEnhancers) => getDefaultEnhancers().concat(
-    // @ts-ignore
-    composeEnhancers()
-  )
 });
-
 
 // Run the root saga
 sagaMiddleware.run(rootSaga);
