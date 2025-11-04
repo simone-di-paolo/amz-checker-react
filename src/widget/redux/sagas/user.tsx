@@ -4,7 +4,7 @@ import { FETCH_USER } from '../actions/user';
 
 // Worker saga will be fired on USER_FETCH_REQUESTED actions
 function* incrementAsync() {
-  yield delay(1000);
+  yield delay(5000);
   yield put({ type: FETCH_USER._SUCCESS });
 }
 

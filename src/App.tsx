@@ -6,7 +6,7 @@ import './App.css';
 
 // Assicurati che questa importazione sia corretta nel tuo progetto
 import {
-  FETCH_USER
+  FETCH_USER
 } from './widget/redux/actions/user'
 
 interface UserState {
@@ -52,8 +52,6 @@ function App({ count, increment }: AppProps) {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-
-      <p
     </>
   );
 }
