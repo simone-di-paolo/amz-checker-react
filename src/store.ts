@@ -1,3 +1,4 @@
+
 import { configureStore, Middleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
@@ -19,11 +20,10 @@ const sagaMiddleware = createSagaMiddleware();
 // Define the middleware array
 const middleware: Middleware[] = [sagaMiddleware];
 
-// Add the logger middleware only in development
-if (process.env.NODE_ENV !== 'production') {
-  // @ts-ignore
-  middleware.push(logger);
-}
+// Add the logger middleware
+// We are adding it unconditionally to ensure it runs in the extension build
+// @ts-ignore
+middleware.push(logger);
 
 // Create the store
 const store = configureStore({
