@@ -23,6 +23,10 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }).concat(middleware),
+    devTools: {
+      name: 'Amz Checker - React',
+      // Specify other options if needed (e.g., actionCreators, latency, etc.)
+    }
 });
 
 // Run the root saga
