@@ -1,41 +1,44 @@
-
-import { configureStore, Middleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import logger from 'redux-logger';
+
+// --- Import dei tuoi Reducer e Saga ---
 import * as userReducer from './widget/redux/reducers/user';
 import { watchIncrementAsync } from './widget/redux/sagas/user';
 
-// Define your reducers here
+// 1. Definizione dei Reducers
 const rootReducer = { user: userReducer.userReducer };
 
-// Define your sagas here
+// 2. Definizione della Root Saga
 function* rootSaga(): Generator {
   yield all([watchIncrementAsync()]);
 }
 
-// Create the saga middleware
+// 3. Creazione del Saga Middleware
 const sagaMiddleware = createSagaMiddleware();
 
-// Define the middleware array
-const middleware: Middleware[] = [sagaMiddleware];
-
-// Add the logger middleware
-// We are adding it unconditionally to ensure it runs in the extension build
-// @ts-ignore
-middleware.push(logger);
-
-// Create the store
+// 4. Configurazione dello Store
 const store = configureStore({
   reducer: rootReducer,
+  // Questa è la sintassi "fluent" o "concatenata" raccomandata da Redux Toolkit.
+  // Evita problemi di tipo restituendo direttamente il risultato finale.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: false }).concat(middleware),
+    getDefaultMiddleware({
+      thunk: false,
+      serializableCheck: false, // Ottima scelta, previene errori con Redux-Saga
+    })
+    // @ts-ignore - Concatena sia saga che logger in un unico passaggio
+    .concat(sagaMiddleware, logger),
+
+  // devTools: true è una buona pratica per essere espliciti
+  devTools: true,
 });
 
-// Run the root saga
+// 5. Esecuzione della Root Saga
 sagaMiddleware.run(rootSaga);
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// 6. Inferenza e Export dei Tipi
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
