@@ -1,22 +1,27 @@
 import { FETCH_USER } from "../actions/user";
-interface Action {
-    type: string;
-    payload?: number;
+
+export interface UserState {
+    count: number;
 }
 
-const initialState = {
+interface Action<T> {
+    type: string;
+    payload?: T;
+}
+
+const initialState: UserState = {
     count: 0
 };
 
-const userReducer = (state = initialState, action: Action) => {
+const userReducer = (state = initialState, action: Action<any>): UserState => {
 
     switch (action.type) {
 
         case FETCH_USER._REQUEST: {
-            const counterToUpdate = state?.count;
+            const counterToUpdate = state.count;
             return { 
                 ...state, 
-                count: counterToUpdate+1
+                count: counterToUpdate + 1
             };
         }
 

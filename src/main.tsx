@@ -4,11 +4,15 @@ import { Provider } from 'react-redux';
 import App from './App.tsx';
 import './index.css';
 import store from './store.ts';
-import $ from 'jquery'; // <-- 1. Importa jQuery
+import $ from 'jquery';
 
 const isDevEnvironment = window.location.hostname.endsWith('.cloudworkstations.dev');
 
 if (isDevEnvironment || window.location.hash === '#grapfinder') {
+
+  // Pulisce le classi dal body e aggiunge la nostra classe custom
+  $('body').removeClass().addClass('amz-checker-body');
+
   if (window.location.hash === '#grapfinder') {
     const originalContent = document.getElementById('a-page'); 
     if (originalContent) {
@@ -16,10 +20,8 @@ if (isDevEnvironment || window.location.hash === '#grapfinder') {
     }
   }
 
-  // 2. Usa jQuery per creare e aggiungere il div
   $('body').append('<div id="root"></div>');
 
-  // 3. Ottieni il div (con JavaScript o jQuery) e renderizza React
   const rootDiv = document.getElementById('root');
   if (rootDiv) {
     ReactDOM.createRoot(rootDiv).render(
