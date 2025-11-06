@@ -1,0 +1,49 @@
+.amz-checker {
+  width: 100%;
+  min-height: 100vh;
+
+  &-wrapper {
+    display: flex;
+    flex-direction: row; /* CORREZIONE: da column a row per layout orizzontale */
+    align-items: stretch;
+    width: 100%;
+    min-height: 100vh;
+
+    .amz-checker-left-sidebar {
+      width: 100px;
+      flex-shrink: 0; /* Impedisce alla sidebar di restringersi */
+      background-color: #2a2d34; /* Aggiunto per visibilità */
+    }
+
+    .amz-checker-content {
+      flex-grow: 1; /* CORREZIONE: Fa sì che il contenuto riempia lo spazio rimanente */
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .amz-checker-right-sidebar {
+      width: 100px;
+      flex-shrink: 0; /* Impedisce alla sidebar di restringersi */
+      background-color: #2a2d34; /* Aggiunto per visibilità */
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+}
+
+/* Puoi tenere qui altri stili globali o specifici del componente */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+  &:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  &.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+  }
+}
