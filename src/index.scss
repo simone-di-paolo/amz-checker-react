@@ -1,47 +1,46 @@
-/* Reset di base e layout a schermo intero */
-.amz-checker-body {
+.amz-checker {
   width: 100%;
   min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  /*
-    Abilita lo scroll verticale se il contenuto eccede l'altezza della viewport,
-    ma nasconde lo scroll orizzontale.
-  */
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: #1c1f26 !important;
-}
 
-/* 
-  Lasciamo questi selettori vuoti. In questo modo, le regole della pagina ospitante 
-  vengono mantenute, ma la nostra classe .amz-checker-body sovrascriverà 
-  le proprietà specifiche di cui abbiamo bisogno senza causare conflitti.
-*/
-html,
-body {
-}
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    min-height: 100vh;
+  }
 
-/* Assicura che il contenitore dell'app React riempia tutto lo spazio */
-#root {
-  width: 100%;
-  min-height: 100vh; /* Usa min-height per permettere al contenuto di crescere */
-}
+  .left-sidebar {
+    width: 80px;
+    flex-shrink: 0;
+    background-color: #2a2d34;
 
-/* Stili globali dell'applicazione (puoi personalizzarli) */
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    .logo-container {
+      padding: 15px;
+      
+      .logo {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  .content {
+    flex-grow: 1;
+    overflow-y: auto;
 
-  /* Questo colore di sfondo si applicherà a #root */
-  background-color: #242424; 
+    .top-bar {
+      display: flex;
+      flex-direction: column;
+      height: 70px;
+      background-color: #2a2d34;
+    }
+  }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  .right-sidebar {
+    width: 80px;
+    flex-shrink: 0;
+    background-color: #2a2d34;
+    padding: 15px;
+  }
 }

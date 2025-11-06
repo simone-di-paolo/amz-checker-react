@@ -17,30 +17,33 @@ interface DispatchProps {
     increment: () => void;
 }
 
+// App.tsx RIVISITATO
 function App() {
   return (
     <>
-      <div className="amz-checker">
-        <div className="amz-checker-wrapper">
-          <div className="amz-checker-left-sidebar">
-            
+      {/* Il BLOCCO principale. Mantiene il suo nome completo. */}
+      <div className="amz-checker"> 
+        {/* Gli ELEMENTI ora hanno nomi più corti e semplici. */}
+        <div className="wrapper">
+          <div className="left-sidebar">
+            <div className="logo-container">
+              <img src="#" className="logo" alt="logo" />
+            </div>
           </div>
-          <div className="amz-checker-content">
-            
+          <div className="content">
+            <div className="top-bar">  {/* Nota: Ho rimosso il __ per coerenza */}
+              {/* Contenuto della top bar */}
+            </div>
           </div>
-          <div className="amz-checker-right-sidebar">
-              <a href="https://vitejs.dev" target="_blank">
-              <img src={viteLogo} className="logo" alt="Vite logo" />
-            </a>
-            <a href="https://react.dev" target="_blank">
-              <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
+          <div className="right-sidebar">
+            {/* Contenuto della sidebar destra */}
           </div>
         </div>
       </div>
     </>
   );
 }
+
 
 const mapStateToProps = (state: RootState): StateProps => {
   return {
