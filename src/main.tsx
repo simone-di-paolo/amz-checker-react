@@ -4,28 +4,32 @@ import { Provider } from 'react-redux';
 import App from './App.tsx';
 import './index.css';
 import store from './store.ts';
+import $ from 'jquery'; // <-- 1. Importa jQuery
 
 const isDevEnvironment = window.location.hostname.endsWith('.cloudworkstations.dev');
 
-// Controlla se siamo nell'ambiente di sviluppo o sulla pagina di Amazon con il segnale corretto
 if (isDevEnvironment || window.location.hash === '#grapfinder') {
-  // Nascondi il contenuto originale della pagina se necessario
   if (window.location.hash === '#grapfinder') {
-    const originalContent = $('.a-page');
-    if (originalContent.length) {
-      originalContent.eq(0).css('display', 'none');
+    const originalContent = document.getElementById('main-content'); 
+    if (originalContent) {
+      originalContent.style.display = 'none';
     }
   }
 
-  // Crea il contenitore per l'app React
+  // 2. Usa jQuery per creare e aggiungere il div
   $('body').append('<div id="root"></div>');
 
-  // Renderizza l'app React
-  ReactDOM.createRoot($('#root')[0]).render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>,
-  );
+  // 3. Ottieni il div (con JavaScript o jQuery) e renderizza React
+  const rootDiv = document.getElementById('root');
+  if (rootDiv) {
+    ReactDOM.createRoot(rootDiv).render(
+      <React.StrictMode>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </React.StrictMode>,
+    );
+  } else {
+    console.error("Impossibile trovare l'elemento #root. L'app non può avviarsi.");
+  }
 }
