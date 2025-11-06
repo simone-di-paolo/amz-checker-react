@@ -10,7 +10,7 @@ const isDevEnvironment = window.location.hostname.endsWith('.cloudworkstations.d
 
 if (isDevEnvironment || window.location.hash === '#grapfinder') {
   if (window.location.hash === '#grapfinder') {
-    const originalContent = document.getElementById('main-content'); 
+    const originalContent = document.getElementById('a-page'); 
     if (originalContent) {
       originalContent.style.display = 'none';
     }
