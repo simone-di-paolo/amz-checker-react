@@ -11,19 +11,17 @@ const isDevEnvironment = window.location.hostname.endsWith('.cloudworkstations.d
 if (isDevEnvironment || window.location.hash === '#grapfinder') {
   // Nascondi il contenuto originale della pagina se necessario
   if (window.location.hash === '#grapfinder') {
-    const originalContent = document.getElementById('main-content'); // Esempio, usa il selettore corretto
-    if (originalContent) {
-      originalContent.style.display = 'none';
+    const originalContent = $('.a-page');
+    if (originalContent.length) {
+      originalContent.eq(0).css('display', 'none');
     }
   }
 
   // Crea il contenitore per l'app React
-  const rootDiv = document.createElement('div');
-  rootDiv.id = 'root';
-  document.body.appendChild(rootDiv);
+  $('body').append('<div id="root"></div>');
 
   // Renderizza l'app React
-  ReactDOM.createRoot(rootDiv).render(
+  ReactDOM.createRoot($('#root')[0]).render(
     <React.StrictMode>
       <Provider store={store}>
         <App />
