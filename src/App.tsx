@@ -1,27 +1,30 @@
+import { useState } from 'react';
 import { connect } from "react-redux";
 import { Dispatch } from 'redux';
 import './App.scss';
 import { RootState } from "./store";
+import {
+  getUserSettings
+} from './widget/redux/selectors/userSettings'
 
 import {
-  FETCH_USER
-} from './widget/redux/actions/user'
+  CHANGE_SCREEN
+} from './widget/redux/actions/userSettings'
 
 interface StateProps {
-    count: number;
+    screen: object;
 }
 
 interface DispatchProps {
-    increment: () => void;
+    changeScreen: (selectedScreen: string) => void;
 }
 
 // App.tsx RIVISITATO
 function App() {
+
   return (
     <>
-      {/* Il BLOCCO principale. Mantiene il suo nome completo. */}
       <div className="amz-checker"> 
-        {/* Gli ELEMENTI ora hanno nomi più corti e semplici. */}
         <div className="wrapper">
           <div className="left-sidebar">
             <div className="logo-container">
@@ -29,8 +32,11 @@ function App() {
             </div>
           </div>
           <div className="content">
-            <div className="top-bar">  {/* Nota: Ho rimosso il __ per coerenza */}
+            <div className="top-bar">
               {/* Contenuto della top bar */}
+            </div>
+            <div className="screen-container">
+
             </div>
           </div>
           <div className="right-sidebar">
@@ -45,13 +51,13 @@ function App() {
 
 const mapStateToProps = (state: RootState): StateProps => {
   return {
-    count: state.user.count
+    screen: getUserSettings(state)
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   return {
-    increment: () => dispatch({type: FETCH_USER._REQUEST })
+    changeScreen: (selectedScreen) => dispatch({type: CHANGE_SCREEN, selectedScreen })
   }
 }
 

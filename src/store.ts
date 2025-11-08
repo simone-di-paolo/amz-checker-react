@@ -1,41 +1,48 @@
-
-import { configureStore, Middleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux'; // <-- IMPORTANTE: importato da 'redux'
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import logger from 'redux-logger';
-import * as userReducer from './widget/redux/reducers/user';
-import { watchIncrementAsync } from './widget/redux/sagas/user';
 
-// Define your reducers here
-const rootReducer = { user: userReducer.userReducer };
+// Import dei reducer
+import * as userReducer from './widget/redux/reducers/userSettings';
 
-// Define your sagas here
+// Definiamo la mappa dei reducer
+const reducersMap = { 
+  userSettings: userReducer.userReducer 
+};
+
+// CORREZIONE: Usiamo combineReducers per creare un singolo reducer radice.
+// Questo risolve l'incompatibilità di tipo con configureStore.
+const rootReducer = combineReducers(reducersMap);
+
+// --- Caricamento Dinamico delle Saghe ---
 function* rootSaga(): Generator {
-  yield all([watchIncrementAsync()]);
+  const sagaModules = import.meta.glob('./widget/redux/sagas/**/*.ts', { eager: true });
+
+  const allSagas = Object.values(sagaModules).flatMap(module =>
+    Object.values(module as Record<string, unknown>)
+  ).filter(
+    (saga): saga is () => Generator => typeof saga === 'function'
+  );
+
+  yield all(allSagas.map(saga => saga()));
 }
 
-// Create the saga middleware
+// Creiamo il middleware per le saghe
 const sagaMiddleware = createSagaMiddleware();
 
-// Define the middleware array
-const middleware: Middleware[] = [sagaMiddleware];
-
-// Add the logger middleware
-// We are adding it unconditionally to ensure it runs in the extension build
-// @ts-ignore
-middleware.push(logger);
-
-// Create the store
+// Creiamo lo store
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: rootReducer, // Ora questo è compatibile
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: false }).concat(middleware),
+    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware, logger),
 });
 
-// Run the root saga
+// Avviamo la root saga
 sagaMiddleware.run(rootSaga);
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// Inferiamo i tipi `RootState` e `AppDispatch` dallo store stesso
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
